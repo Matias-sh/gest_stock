@@ -1,0 +1,25 @@
+{% extends 'bases/base.html' %}
+{% block main %}
+<button type="button" class="btn btn-primary rounded-pill"><a href="{% url 'registrar_egreso' %}" style="color:white;">Nuevo</a></button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha Egreso</th>
+            <th>Fecha Sist. Egreso</th>
+            <th>Observaciones</th>
+            <th>Tipo de Egreso</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for egreso in egresos %}
+        <tr>
+            <td>{{egreso.fecha_egreso}}</td>
+            <td>{{egreso.fecha_sist_egreso}}</td>
+            <td>{{egreso.observaciones}}</td>
+            <td>{{egreso.id_tpo_egreso}}</td>
+            <td><a href="editar_egreso/{{egreso.id_egreso}}">Editar</a><b>/</b><a href="eliminar_egreso/{{egreso.id_egreso}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock main %}

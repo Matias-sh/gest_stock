@@ -1,0 +1,22 @@
+{% extends 'bases/base.html' %}
+{% block content %}
+<div class="align-items-right">
+    <button type="button" class="btn btn-primary rounded-pill"><a href="{% url 'new_tpo_articulos' %}" style="color:white;">Nuevo</a></button>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tipos de Articulos</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tpo_articulo in tpo_articulos %}
+        <tr>
+            <td>{{tpo_articulo.descripcion}}</td>
+            <td><a href="update_tpo_articulos/{{tpo_articulo.id_tpo_articulo}}">Editar</a><b>/</b><a href="delete_tpo_articulos/{{tpo_articulo.id_tpo_articulo}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

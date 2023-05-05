@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+{% block body %}
+    <div class="cuerpo">
+    {% block header %}      
+
+    {% endblock header %}
+
+    {% block aside %}
+        <ul>
+            <li>Articulos
+                <ul>
+                    <li><a href="{% url 'articulo_create' %}">Ingresar un Articulo</a></li>
+                    <li><a href="{% url 'articulo_list' %}">Ver Articulos</a></li>
+                </ul>
+            </li>
+            <br>
+            <li>Ingresos
+                <ul>
+                    <li><a href="{% url 'ingreso_create' %}">Nuevo Ingreso</a></li>
+                    <li><a href="{% url 'ingreso_list' %}">Ver Ingresos</a></li>
+                </ul>
+            </li>
+            <br>
+            <li>Egresos
+                <ul>
+                    <li><a href="{% url 'egreso_create' %}">Nuevo Egreso</a></li>
+                    <li><a href="{% url 'egreso_list' %}">Ver Egresos</a></li>
+                </ul>
+            </li>
+        </ul>
+    {% endblock aside %}
+
+    {% block content %}
+
+    {% endblock content %}
+    </div>
+{% endblock body %}
+</body>
+</html>

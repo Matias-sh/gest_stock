@@ -1,0 +1,19 @@
+{% extends 'bases/base.html' %}
+{% block main %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tipos de Articulos</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tpo_ingreso in tpo_ingresos %}
+        <tr>
+            <td>{{tpo_ingreso.descripcion}}</td>
+            <td><a href="editar_tpo_ingreso/{{tpo_ingreso.id_tpo_ingreso}}">Editar</a><b>/</b><a href="eliminar_tpo_ingreso/{{tpo_ingreso.id_tpo_ingreso}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock main %}

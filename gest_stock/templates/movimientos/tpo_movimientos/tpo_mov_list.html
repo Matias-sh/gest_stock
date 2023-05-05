@@ -1,0 +1,20 @@
+{% extends 'bases/base.html' %}
+{% block content %}
+<button type="button" class="btn btn-primary rounded-pill"><a href="{% url 'new_tpo_mov' %}" style="color:white;">Nuevo</a></button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tipos de Movimientos</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tpo in tpos %}
+        <tr>
+            <td>{{tpo.descripcion}}</td>
+            <td><a href="tpo_mov_update/{{tpo.id_tpo_movimiento}}">Editar</a><b>/</b><a href="tpo_mov_delete/{{tpo.id_tpo_movimiento}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

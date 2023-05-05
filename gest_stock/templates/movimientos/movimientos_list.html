@@ -1,0 +1,37 @@
+{% extends 'bases/base.html' %}
+{% block content %}
+<button type="button" class="btn btn-primary rounded-pill"><a href="{% url 'new_movimientos' %}" style="color:white;">Nuevo</a></button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Articulo</th>
+            <th>Cantidad</th>
+            <th>Tipo Movimiento</th>
+            <th>Fecha del Sistema</th>
+            <th>Observaciones</th>
+            <th>Modelo</th>
+            
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movimiento in movimientos %}
+        <tr>
+            <td>{{movimiento.fecha}}</td>
+            <td>{{movimiento.cod_articulo}}</td>
+            <td>{{movimiento.cantidad}}</td>
+            {% if movimiento.id_tpo_movimiento.id_tpo_movimiento == 2 %}
+            <td style="background-color: rgb(196, 2, 2);">{{movimiento.id_tpo_movimiento}}</td>
+            {% else %}
+            <td style="background-color: rgb(0, 175, 0);">{{movimiento.id_tpo_movimiento}}</td>
+            {% endif %}
+            <td>{{movimiento.fecha_sistema}}</td>
+            <td>{{movimiento.observaciones}}</td>
+            <td>{{movimiento.cod_articulo.modelo}}</td>
+            <td><a href="update_movimientos/{{movimiento.id_movimiento}}">Editar</a><b>/</b><a href="delete_movimientos/{{movimiento.id_movimiento}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

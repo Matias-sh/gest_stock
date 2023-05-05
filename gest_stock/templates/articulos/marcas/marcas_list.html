@@ -1,0 +1,20 @@
+{% extends 'bases/base.html' %}
+{% block content %}
+<button type="button" class="btn btn-primary rounded-pill"><a href="{% url 'new_marcas' %}" style="color:white;">Nuevo</a></button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marcas</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for marca in marcas %}
+        <tr>
+            <td>{{marca.descripcion}}</td>
+            <td><a href="update_marcas/{{marca.id_marca}}">Editar</a><b>/</b><a href="delete_marcas/{{marca.id_marca}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

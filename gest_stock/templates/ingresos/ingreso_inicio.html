@@ -1,0 +1,27 @@
+{% extends 'bases/base.html' %}
+{% block main %}
+<button type="button" class="btn btn-primary rounded-pill"><a href="{% url 'registrar_ingreso' %}" style="color:white;">Nuevo</a></button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre ingreso</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Cant_Stock</th>
+            <th>Tipo ingreso</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ingreso in ingresos %}
+        <tr>
+            <td>{{ingreso.descripcion}}</td>
+            <td>{{ingreso.id_marca}}</td>
+            <td>{{ingreso.modelo}}</td>
+            <td>{{ingreso.cant_stock}}</td>
+            <td>{{ingreso.id_tpo_ingreso}}</td>
+            <td><a href="editar_ingreso/{{ingreso.id_ingreso}}">Editar</a><b>/</b><a href="eliminar_ingreso/{{ingreso.id_ingreso}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock main %}
