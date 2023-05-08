@@ -2,21 +2,33 @@ from django.forms import ModelForm
 from django import forms
 from .models import *
 
+class InventarioForm(ModelForm):
+    class Meta:
+        
+        model = Inventario
+
+        fields = '__all__'
+
+        widgets = {
+            'cod_articulo': forms.Select(attrs={'class': 'form-control'}),
+            'num_serie': forms.TextInput(attrs={'class': 'form-control'}),
+            'modelo': forms.TextInput(attrs={'class': 'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
 
 class ArticuloForm(ModelForm):
     class Meta:
         
         model = Articulos
 
-        fields = '__all__'
+        fields = ['nombre', 'id_tpo_articulo', 'id_marca']
 
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'stock': forms.NumberInput(attrs={'class': 'form-control'}),
             'id_tpo_articulo': forms.Select(attrs={'class': 'form-control'}),
             'id_marca': forms.Select(attrs={'class': 'form-control'}),
-            'num_serie': forms.TextInput(attrs={'class': 'form-control'}),
-            'modelo': forms.TextInput(attrs={'class': 'form-control'}),
+            'total_stock': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 class TpoArtForm(ModelForm):
@@ -51,7 +63,7 @@ class MovimientoForm(ModelForm):
 
         widgets = {
             'id_tpo_movimiento': forms.Select(attrs={'class': 'form-control'}),
-            'cod_articulo': forms.Select(attrs={'class': 'form-control'}),
+            'id_inventario': forms.Select(attrs={'class': 'form-control'}),
             'fecha': forms.DateInput(attrs={'class': 'form-control'}),
             'observaciones': forms.TextInput(attrs={'class': 'form-control'}),
             'cantidad': forms.NumberInput(attrs={'class': 'form-control'}),

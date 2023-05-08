@@ -5,6 +5,56 @@ from .forms import *
 def dashboard(request):
     return render(request, 'bases/base.html')
 
+# INVENTARIO FUNCTIONS
+
+def inventario_list(request):
+    inventarios = Inventario.objects.all()
+
+    context = {
+        'inventarios': inventarios
+    }
+
+    return render(request, 'inventario/inventario_list.html', context)
+
+def inventario_create(request):
+    if request.method == 'POST':
+        form = InventarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            inventario = Inventario.objects.latest('id_inventario')
+            articulo = Articulos.objects.get(cod_articulo=inventario.cod_articulo.cod_articulo)
+            total_stock = Articulos.objects.filter(cod_articulo=articulo.cod_articulo).update(total_stock=articulo.total_stock+inventario.cantidad)
+            return redirect('inventario_list')
+    else:
+        form = InventarioForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'inventario/inventario_form.html', context)
+
+def inventario_update(request, id):
+    inventarios = Inventario.objects.get(id_inventario=id)
+    if request.method == 'POST':
+        form = InventarioForm(request.POST, instance=inventarios)
+        if form.is_valid():
+            form.save()
+            return redirect('inventario_list')
+    else:
+        form = InventarioForm(instance=inventarios)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'inventario/inventario_form.html', context)
+
+def inventario_delete(request, id):
+    inventarios = Inventario.objects.get(id_inventario=id)
+    articulo = Articulos.objects.get(cod_articulo=inventarios.cod_articulo.cod_articulo)
+    total_stock = Articulos.objects.filter(cod_articulo=articulo.cod_articulo).update(total_stock=articulo.total_stock-inventarios.cantidad)
+    inventarios.delete()
+    return redirect('inventario_list')
+
 # ARTICULOS FUNCTIONS
 
 def articulo_list(request):
@@ -156,15 +206,25 @@ def movimientos_create(request):
         form = MovimientoForm(request.POST)
         tpo_mov = int(request.POST.get('id_tpo_movimiento'))
         if tpo_mov == 2:
-            codigo_articulo = int(request.POST.get('cod_articulo'))
-            articulo = Articulos.objects.get(cod_articulo=codigo_articulo)
-            cantidad = articulo.stock - int(request.POST.get('cantidad'))
-            Articulos.objects.filter(cod_articulo=codigo_articulo).update(stock=cantidad)
+            id_inventario = request.POST.get('id_inventario')
+            cod_articulo = Inventario.objects.get(id_inventario=id_inventario)
+            cod_articulo = cod_articulo.cod_articulo.cod_articulo
+            articulo = Articulos.objects.get(cod_articulo=cod_articulo)
+            inventario = Inventario.objects.get(id_inventario=id_inventario)
+            cantidad_total = articulo.total_stock - int(request.POST.get('cantidad'))
+            cantidad = inventario.cantidad - int(request.POST.get('cantidad'))
+            Inventario.objects.filter(id_inventario=id_inventario).update(cantidad=cantidad)
+            Articulos.objects.filter(cod_articulo=cod_articulo).update(total_stock=cantidad_total)
         elif tpo_mov == 1:
-            codigo_articulo = int(request.POST.get('cod_articulo'))
-            articulo = Articulos.objects.get(cod_articulo=codigo_articulo)
-            cantidad = articulo.stock + int(request.POST.get('cantidad'))
-            Articulos.objects.filter(cod_articulo=codigo_articulo).update(stock=cantidad)
+            id_inventario = request.POST.get('id_inventario')
+            cod_articulo = Inventario.objects.get(id_inventario=id_inventario)
+            cod_articulo = cod_articulo.cod_articulo.cod_articulo
+            articulo = Articulos.objects.get(cod_articulo=cod_articulo)
+            inventario = Inventario.objects.get(id_inventario=id_inventario)
+            cantidad_total = articulo.total_stock + int(request.POST.get('cantidad'))
+            cantidad = inventario.cantidad + int(request.POST.get('cantidad'))
+            Inventario.objects.filter(id_inventario=id_inventario).update(cantidad=cantidad)
+            Articulos.objects.filter(cod_articulo=cod_articulo).update(total_stock=cantidad_total)
 
         if form.is_valid():
             form.save()
@@ -197,14 +257,14 @@ def movimientos_delete(request, id):
     if int(movimiento.id_tpo_movimiento.id_tpo_movimiento) == 2:
         codigo_articulo = movimiento.cod_articulo.cod_articulo
         articulo = Articulos.objects.get(cod_articulo=codigo_articulo)
-        cantidad = articulo.stock + int(movimiento.cantidad)
-        Articulos.objects.filter(cod_articulo=codigo_articulo).update(stock=cantidad)
+        cantidad = articulo.total_stock + int(movimiento.cantidad)
+        Articulos.objects.filter(cod_articulo=codigo_articulo).update(total_stock=cantidad)
         movimiento.delete()
     elif int(movimiento.id_tpo_movimiento.id_tpo_movimiento) == 1:
         codigo_articulo = movimiento.cod_articulo.cod_articulo
         articulo = Articulos.objects.get(cod_articulo=codigo_articulo)
-        cantidad = articulo.stock - int(movimiento.cantidad)
-        Articulos.objects.filter(cod_articulo=codigo_articulo).update(stock=cantidad)
+        cantidad = articulo.total_stock - int(movimiento.cantidad)
+        Articulos.objects.filter(cod_articulo=codigo_articulo).update(total_stock=cantidad)
         movimiento.delete()
     return redirect('movimientos_list')
 

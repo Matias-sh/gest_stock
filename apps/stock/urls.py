@@ -2,8 +2,13 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    #------------------------------------------- Articulos -------------------------------------------
     path('', dashboard, name='dashboard'),
+    #------------------------------------------- Inventario -------------------------------------------
+    path('inventario/', inventario_list, name='inventario_list'),
+    path('inventario/new_inventario/', inventario_create, name='new_inventario'),
+    path('inventario/update_inventario/<int:id>/', inventario_update, name='update_inventario'),
+    path('inventario/delete_inventario/<int:id>/', inventario_delete, name='delete_inventario'),
+    #------------------------------------------- Articulos -------------------------------------------
     path('articulos/', articulo_list, name='articulo_list'),
     path('articulos/new_articulo/', articulo_create, name='new_articulo'),
     path('articulos/update_articulo/<int:id>/', articulo_update, name='update_articulo'),

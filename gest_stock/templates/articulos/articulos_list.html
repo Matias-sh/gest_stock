@@ -8,7 +8,7 @@
             <th>Nombre Articulo</th>
             <th>Tipo Articulo</th>
             <th>Marca</th>
-            
+            <th>Stock Total</th>
             <th>Opciones</th>
         </tr>
     </thead>
@@ -19,6 +19,7 @@
             <td>{{articulo.nombre}}</td>
             <td>{{articulo.id_tpo_articulo}}</td>
             <td>{{articulo.id_marca}}</td>
+            <td>{{articulo.total_stock}}</td>
             <td><a href="update_articulo/{{articulo.cod_articulo}}">Editar</a><b>/</b><a href="delete_articulo/{{articulo.cod_articulo}}">Borrar</a></td>
         </tr>
         {% endfor %}

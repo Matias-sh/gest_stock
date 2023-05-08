@@ -21,12 +21,26 @@ class Articulos(models.Model):
     nombre = models.CharField(max_length=50)
     id_tpo_articulo = models.ForeignKey(Tpo_Articulos, on_delete=models.CASCADE)
     id_marca = models.ForeignKey(Marcas, on_delete=models.CASCADE)
+    total_stock = models.PositiveIntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse('articulo_list')
 
     def __str__(self):
         return self.nombre
+
+# ---------------------------------- Inventario ----------------------------------
+
+class Inventario(models.Model):
+    id_inventario = models.AutoField(primary_key=True)
+    cod_articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE, null=True)
+    num_serie = models.CharField(max_length=20)
+    modelo = models.CharField(max_length=20)
+    cantidad = models.PositiveIntegerField()
+
+    def __str__(self):
+        txt = "{0}, modelo:{1}"
+        return txt.format(self.cod_articulo.nombre, self.modelo)
 
 # ---------------------------------- Operaciones ----------------------------------
 
@@ -40,7 +54,7 @@ class Tpo_Movimientos(models.Model):
 class Movimientos(models.Model):
     id_movimiento = models.AutoField(primary_key=True)
     id_tpo_movimiento = models.ForeignKey(Tpo_Movimientos, on_delete=models.CASCADE)
-    cod_articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE)
+    id_inventario = models.ForeignKey(Inventario, on_delete=models.CASCADE)
     fecha = models.DateField()
     fecha_sistema = models.DateField(auto_now=True)
     observaciones = models.TextField(blank=True, null=True)
@@ -51,12 +65,7 @@ class Movimientos(models.Model):
         return txt.format(self.id_tpo_movimiento, self.cod_articulo)
 
 
-# ---------------------------------- Stock ----------------------------------
 
-class Stock(models.Model):
-    id_stock = models.AutoField(primary_key=True)
-    cod_articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE)
-    num_serie = models.CharField(max_length=20)
-    modelo = models.CharField(max_length=20)
-    cantidad = models.PositiveIntegerField()
+
+
     

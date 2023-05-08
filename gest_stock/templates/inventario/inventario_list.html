@@ -1,0 +1,33 @@
+{% extends 'bases/base.html' %}
+{% block content %}
+<button type="button" class="btn btn-primary rounded-pill"><a href="{% url 'new_inventario' %}" style="color:white;">Nuevo</a></button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Codigo Articulo</th>
+            <th>Nombre Articulo</th>
+            <th>Tipo Articulo</th>
+            <th>Marca</th>
+            <th>Número de Serie</th>
+            <th>Modelo</th>
+            <th>Stock</th>
+            
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for inventario in inventarios %}
+        <tr>
+            <td>{{inventario.cod_articulo.cod_articulo}}</td>
+            <td>{{inventario.cod_articulo.nombre}}</td>
+            <td>{{inventario.cod_articulo.id_tpo_articulo}}</td>
+            <td>{{inventario.cod_articulo.id_marca}}</td>
+            <td>{{inventario.num_serie}}</td>
+            <td>{{inventario.modelo}}</td>
+            <td>{{inventario.cantidad}}</td>
+            <td><a href="delete_inventario/{{inventario.id_inventario}}">Borrar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
