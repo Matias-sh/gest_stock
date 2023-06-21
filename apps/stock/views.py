@@ -3,7 +3,7 @@ from .models import *
 from .forms import *
 
 def dashboard(request):
-    return render(request, 'bases/base.html')
+    return render(request, 'inicio/index.html')
 
 # INVENTARIO FUNCTIONS
 
@@ -220,7 +220,7 @@ def movimientos_create(request):
 
         Inventario.objects.filter(id_inventario=id_inventario).update(cantidad=cantidad)
         Articulos.objects.filter(cod_articulo=cod_articulo).update(total_stock=cantidad_total)
-        
+
         if form.is_valid():
             form.save()
             return redirect('movimientos_list')

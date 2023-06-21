@@ -16,6 +16,13 @@ class InventarioForm(ModelForm):
             'cantidad': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+        labels = {
+            'cod_articulo': 'Articulo:',
+            'num_serie': 'Numero de Serie:',
+            'modelo': 'Modelo:',
+            'cantidad': 'Cantidad:',
+        }
+
 
 class ArticuloForm(ModelForm):
 
@@ -32,6 +39,12 @@ class ArticuloForm(ModelForm):
             'total_stock': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+        labels = {
+            'nombre': 'Nombre de Articulo:',
+            'id_tpo_articulo': 'Tipo de Articulo:',
+            'id_marca': 'Marca:',
+        }
+
 class TpoArtForm(ModelForm):
     class Meta:
 
@@ -43,6 +56,10 @@ class TpoArtForm(ModelForm):
             'descripcion': forms.TextInput(attrs={'class': 'form-control'})
         }
 
+        labels = {
+            'descripcion': 'Nombre del tipo de Articulo:',
+        }
+
 class MarcaForm(ModelForm):
     class Meta:
 
@@ -52,6 +69,10 @@ class MarcaForm(ModelForm):
 
         widgets = {
             'descripcion': forms.TextInput(attrs={'class': 'form-control'})
+        }
+        
+        labels = {
+            'descripcion': 'Nombre de la Marca del Articulo:',
         }
 
 
@@ -70,6 +91,14 @@ class MovimientoForm(ModelForm):
             'cantidad': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+        labels = {
+            'id_tpo_movimiento': 'Tipo de Movimiento:',
+            'id_inventario': 'Inventario del Articulo:',
+            'fecha': 'Fecha:',
+            'observaciones': 'Observaciones:',
+            'cantidad': 'Cantidad'
+        }
+
 class TpoMovForm(ModelForm):
     class Meta:
 
@@ -79,4 +108,8 @@ class TpoMovForm(ModelForm):
 
         widgets = {
             'descripcion': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+        labels = {
+            'descripcion': 'Nombre del tipo de movimiento:',
         }
