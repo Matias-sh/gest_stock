@@ -205,27 +205,22 @@ def movimientos_create(request):
     if request.method == 'POST':
         form = MovimientoForm(request.POST)
         tpo_mov = int(request.POST.get('id_tpo_movimiento'))
+        id_inventario = request.POST.get('id_inventario')
+        cod_articulo = Inventario.objects.get(id_inventario=id_inventario)
+        cod_articulo = cod_articulo.cod_articulo.cod_articulo
+        articulo = Articulos.objects.get(cod_articulo=cod_articulo)
+        inventario = Inventario.objects.get(id_inventario=id_inventario)
+
         if tpo_mov == 2:
-            id_inventario = request.POST.get('id_inventario')
-            cod_articulo = Inventario.objects.get(id_inventario=id_inventario)
-            cod_articulo = cod_articulo.cod_articulo.cod_articulo
-            articulo = Articulos.objects.get(cod_articulo=cod_articulo)
-            inventario = Inventario.objects.get(id_inventario=id_inventario)
             cantidad_total = articulo.total_stock - int(request.POST.get('cantidad'))
             cantidad = inventario.cantidad - int(request.POST.get('cantidad'))
-            Inventario.objects.filter(id_inventario=id_inventario).update(cantidad=cantidad)
-            Articulos.objects.filter(cod_articulo=cod_articulo).update(total_stock=cantidad_total)
         elif tpo_mov == 1:
-            id_inventario = request.POST.get('id_inventario')
-            cod_articulo = Inventario.objects.get(id_inventario=id_inventario)
-            cod_articulo = cod_articulo.cod_articulo.cod_articulo
-            articulo = Articulos.objects.get(cod_articulo=cod_articulo)
-            inventario = Inventario.objects.get(id_inventario=id_inventario)
             cantidad_total = articulo.total_stock + int(request.POST.get('cantidad'))
             cantidad = inventario.cantidad + int(request.POST.get('cantidad'))
-            Inventario.objects.filter(id_inventario=id_inventario).update(cantidad=cantidad)
-            Articulos.objects.filter(cod_articulo=cod_articulo).update(total_stock=cantidad_total)
 
+        Inventario.objects.filter(id_inventario=id_inventario).update(cantidad=cantidad)
+        Articulos.objects.filter(cod_articulo=cod_articulo).update(total_stock=cantidad_total)
+        
         if form.is_valid():
             form.save()
             return redirect('movimientos_list')
@@ -254,18 +249,21 @@ def movimientos_update(request, id):
 
 def movimientos_delete(request, id):
     movimiento = Movimientos.objects.get(id_movimiento=id)
+    codigo_articulo = movimiento.id_inventario.cod_articulo.cod_articulo
+    codigo_inventario = Inventario.objects.get(id_inventario=movimiento.id_inventario.id_inventario)
+    articulo = Articulos.objects.get(cod_articulo=codigo_articulo)
+    inventario = Inventario.objects.get(id_inventario=codigo_inventario.id_inventario)
+
     if int(movimiento.id_tpo_movimiento.id_tpo_movimiento) == 2:
-        codigo_articulo = movimiento.cod_articulo.cod_articulo
-        articulo = Articulos.objects.get(cod_articulo=codigo_articulo)
         cantidad = articulo.total_stock + int(movimiento.cantidad)
-        Articulos.objects.filter(cod_articulo=codigo_articulo).update(total_stock=cantidad)
-        movimiento.delete()
+        cantidad_inventario = inventario.cantidad + int(movimiento.cantidad)
     elif int(movimiento.id_tpo_movimiento.id_tpo_movimiento) == 1:
-        codigo_articulo = movimiento.cod_articulo.cod_articulo
-        articulo = Articulos.objects.get(cod_articulo=codigo_articulo)
         cantidad = articulo.total_stock - int(movimiento.cantidad)
-        Articulos.objects.filter(cod_articulo=codigo_articulo).update(total_stock=cantidad)
-        movimiento.delete()
+        cantidad_inventario = inventario.cantidad - int(movimiento.cantidad)
+
+    Articulos.objects.filter(cod_articulo=codigo_articulo).update(total_stock=cantidad)
+    Inventario.objects.filter(id_inventario=codigo_inventario.id_inventario).update(cantidad=cantidad_inventario)
+    movimiento.delete()
     return redirect('movimientos_list')
 
 # TIPO DE MOVIMIENTOS

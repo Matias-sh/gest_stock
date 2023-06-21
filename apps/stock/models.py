@@ -27,7 +27,8 @@ class Articulos(models.Model):
         return reverse('articulo_list')
 
     def __str__(self):
-        return self.nombre
+        txt = "{0} / {1}"
+        return txt.format(self.nombre, self.id_marca)
 
 # ---------------------------------- Inventario ----------------------------------
 
@@ -39,8 +40,8 @@ class Inventario(models.Model):
     cantidad = models.PositiveIntegerField()
 
     def __str__(self):
-        txt = "{0}, modelo:{1}"
-        return txt.format(self.cod_articulo.nombre, self.modelo)
+        txt = "{0}, modelo:{1}, N/S: {2}"
+        return txt.format(self.cod_articulo.nombre, self.modelo, self.num_serie)
 
 # ---------------------------------- Operaciones ----------------------------------
 

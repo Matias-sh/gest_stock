@@ -19,7 +19,7 @@
         {% for movimiento in movimientos %}
         <tr>
             <td>{{movimiento.fecha}}</td>
-            <td>{{movimiento.cod_articulo}}</td>
+            <td>{{movimiento.id_inventario.cod_articulo.nombre}}</td>
             <td>{{movimiento.cantidad}}</td>
             {% if movimiento.id_tpo_movimiento.id_tpo_movimiento == 2 %}
             <td style="background-color: rgb(196, 2, 2);">{{movimiento.id_tpo_movimiento}}</td>
@@ -28,7 +28,7 @@
             {% endif %}
             <td>{{movimiento.fecha_sistema}}</td>
             <td>{{movimiento.observaciones}}</td>
-            <td>{{movimiento.cod_articulo.modelo}}</td>
+            <td>{{movimiento.id_inventario.modelo}}</td>
             <td><a href="delete_movimientos/{{movimiento.id_movimiento}}">Borrar</a></td>
         </tr>
         {% endfor %}
