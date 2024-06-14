@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'gest_stock.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'polo_stock', 
+        'NAME': 'gest_stock', 
         'USER': 'matias',
         'PASSWORD': 'matias777',
         'HOST': '127.0.0.1', 
